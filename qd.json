@@ -1,0 +1,5 @@
+{
+	"name": "uri",
+	"version": "0.1.0",
+	"description": "URI encoding, decoding, and parsing for Quadrate"
+}
