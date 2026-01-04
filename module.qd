@@ -121,8 +121,10 @@ pub fn encode(s:str -- encoded:str) {
 				// Encode as %XX
 				unicode::percent out o mem::set_byte
 				o 1 + -> o
-				hex_tbl c 4 shr 15 and mem::get_byte -> high
-				hex_tbl c 15 and mem::get_byte -> low
+				c 4 shr 15 and -> hidx
+				c 15 and -> lidx
+				hex_tbl hidx mem::get_byte -> high
+				hex_tbl lidx mem::get_byte -> low
 				high out o mem::set_byte
 				o 1 + -> o
 				low out o mem::set_byte
