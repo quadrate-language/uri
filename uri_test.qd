@@ -56,3 +56,23 @@ test "uri::query_has" {
 	"name=Alice&age=30" "name" uri::query_has testing::assert_true
 	"name=Alice&age=30" "missing" uri::query_has testing::assert_false
 }
+
+test "uri IPv6 addresses" {
+	"http://[::1]:8080/path" uri::parse -> u
+	u @host "[::1]" testing::assert_eq
+	u @port 8080 testing::assert_eq
+}
+
+test "uri port validation" {
+	// Valid max port
+	"http://host:65535/path" uri::parse -> u
+	u @port 65535 testing::assert_eq
+}
+
+test "uri decode edge cases" {
+	// Incomplete percent encoding
+	"%" uri::decode "%" testing::assert_eq
+	"%2" uri::decode "%2" testing::assert_eq
+	// Plus sign handling
+	"a+b" uri::decode "a+b" testing::assert_eq
+}
